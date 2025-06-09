@@ -1,0 +1,175 @@
+$middleware-brand-primary: #6366f1;
+$middleware-brand-secondary: #8b5cf6;
+$middleware-brand-accent: #06b6d4;
+
+$glass-primary: #a65161;
+$glass-dark: #0d0b0b;
+$glass-medium: #402a38;
+$glass-accent: #59344f;
+$glass-light: #d98484;
+
+$color-slate-50: #f8fafc;
+$color-slate-100: #f1f5f9;
+$color-slate-200: #e2e8f0;
+$color-slate-300: #cbd5e1;
+$color-slate-400: #94a3b8;
+$color-slate-500: #64748b;
+$color-slate-600: #475569;
+$color-slate-700: #334155;
+$color-slate-800: #1e293b;
+$color-slate-900: #0f172a;
+
+$color-status-error: #ef4444;
+$color-status-warning: #f59e0b;
+$color-status-success: #10b981;
+$color-status-info: #3b82f6;
+$color-status-debug: #94a3b8;
+
+$space-xs: 4px;
+$space-sm: 8px;
+$space-md: 12px;
+$space-lg: 16px;
+$space-xl: 24px;
+$space-2xl: 32px;
+
+$text-xs: 12px;
+$text-sm: 13px;
+$text-base: 14px;
+$text-lg: 16px;
+$text-xl: 18px;
+
+$radius-sm: 4px;
+$radius-md: 6px;
+$radius-lg: 8px;
+
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+$shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 4px 8px 0 rgba(0, 0, 0, 0.08);
+
+$glass-blur: blur(12px);
+$glass-border: 1px solid rgba(255, 255, 255, 0.08);
+
+:root {
+  --space-xs: #{$space-xs};
+  --space-sm: #{$space-sm};
+  --space-md: #{$space-md};
+  --space-lg: #{$space-lg};
+  --space-xl: #{$space-xl};
+  --space-2xl: #{$space-2xl};
+
+  --text-xs: #{$text-xs};
+  --text-sm: #{$text-sm};
+  --text-base: #{$text-base};
+  --text-lg: #{$text-lg};
+  --text-xl: #{$text-xl};
+
+  --radius-sm: #{$radius-sm};
+  --radius-md: #{$radius-md};
+  --radius-lg: #{$radius-lg};
+
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+}
+
+// making middlware as the default theme
+:root,
+[data-theme='middleware'] {
+  --color-background: #{$color-slate-50};
+  --color-surface: #ffffff;
+  --color-surface-secondary: #{$color-slate-100};
+  --color-text-primary: #{$color-slate-900};
+  --color-text-secondary: #{$color-slate-600};
+  --color-text-tertiary: #{$color-slate-400};
+  --color-border: #{$color-slate-200};
+  --color-border-hover: #{$color-slate-300};
+
+  --color-primary: #{$middleware-brand-primary};
+  --color-primary-hover: #{$middleware-brand-secondary};
+  --color-primary-rgb: 99, 102, 241;
+  --color-accent: #{$middleware-brand-accent};
+
+  --color-error: #{$color-status-error};
+  --color-warning: #{$color-status-warning};
+  --color-success: #{$color-status-success};
+  --color-info: #{$color-status-info};
+  --color-debug: #{$color-status-debug};
+}
+
+[data-theme='glass'] {
+  --color-background: linear-gradient(
+    135deg,
+    #{$glass-dark} 0%,
+    #{$glass-medium} 50%,
+    #{$glass-accent} 100%
+  );
+  --color-background-gradient: linear-gradient(
+    120deg,
+    #{$glass-dark} 40%,
+    #{$glass-medium} 80%,
+    #{$glass-accent} 100%
+  );
+
+  --color-surface: rgba(13, 11, 11, 0.3);
+  --color-surface-glass: rgba(13, 11, 11, 0.2);
+  --color-surface-secondary: rgba(64, 42, 56, 0.15);
+
+  --color-text-primary: #ffffff;
+  --color-text-secondary: rgba(255, 255, 255, 0.7);
+  --color-text-tertiary: rgba(255, 255, 255, 0.5);
+  --color-text-accent: #{$glass-primary};
+
+  --color-border: rgba(166, 81, 97, 0.15);
+  --color-border-hover: rgba(166, 81, 97, 0.25);
+
+  --color-primary: #{$glass-primary};
+  --color-primary-hover: #{$glass-light};
+  --color-primary-rgb: 166, 81, 97;
+  --color-accent: #{$glass-light};
+
+  --color-error: #ff6b9d;
+  --color-warning: #feca57;
+  --color-success: #{$glass-light};
+  --color-info: #{$glass-primary};
+  --color-debug: #{$glass-primary};
+
+  --glass-blur: #{$glass-blur};
+  --glass-border: #{$glass-border};
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background: var(--color-background);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  [data-theme='glass'] & {
+    background: var(--color-background);
+    min-height: 100vh;
+  }
+}
+
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+}
+
+input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+}

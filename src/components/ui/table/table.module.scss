@@ -1,0 +1,116 @@
+@use '@/styles/mixins.scss' as mixins;
+
+.table {
+  @include mixins.flex-column;
+  width: 100%;
+  background: transparent;
+  border: none;
+  font-size: var(--text-sm);
+  height: 100%;
+}
+
+.tableHeader {
+  width: 100%;
+  display: flex;
+  background: var(--color-surface-secondary);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  flex-shrink: 0;
+
+  [data-theme='glass'] & {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+  }
+}
+
+.headerCell {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &[data-column='timestamp'] {
+    width: 30%;
+  }
+
+  &[data-column='severity'] {
+    width: 20%;
+  }
+
+  &[data-column='body'] {
+    flex: 2;
+  }
+
+  [data-theme='glass'] & {
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}
+
+.tableBody {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  min-height: 0;
+}
+
+.tableRow {
+  width: 100%;
+  display: flex;
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color 0.15s ease;
+  min-height: 60px;
+
+  &:hover {
+    background: var(--color-surface-secondary);
+  }
+
+  [data-theme='glass'] & {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+  }
+}
+
+.tableCell {
+  padding: var(--space-md) var(--space-lg);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  border-right: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  flex: 1;
+  min-width: 0;
+
+  &:last-child {
+    border-right: none;
+  }
+
+  &[data-column='timestamp'] {
+    width: 30%;
+  }
+
+  &[data-column='severity'] {
+    width: 20%;
+  }
+
+  &[data-column='body'] {
+    flex: 2;
+  }
+
+  [data-theme='glass'] & {
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+  }
+}

@@ -1,0 +1,51 @@
+@use '@/styles/mixins.scss' as mixins;
+
+@mixin button-base {
+  @include mixins.flex-center;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.2s ease-in-out;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.primary {
+  @include button-base;
+  background-color: var(--color-primary);
+  color: var(--color-surface);
+
+  &:hover:not(:disabled) {
+    filter: brightness(110%);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(90%);
+  }
+}
+
+.outline {
+  @include button-base;
+  background-color: transparent;
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+
+  &:hover:not(:disabled) {
+    background-color: var(--color-primary);
+    color: var(--color-surface);
+  }
+
+  &:active:not(:disabled) {
+    filter: brightness(90%);
+  }
+}
