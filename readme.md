@@ -34,9 +34,9 @@ Below functionalities are not implemented considering the current scope of the a
 Instead of using existing libraries, I built a virtualization hook from first principles to understand the core concepts:
 The Problem: Rendering 10,000+ log entries creates massive DOM bloat, causing:
 
-Memory consumption scaling linearly with dataset size
-Layout thrashing during scroll events
-Janky scroll performance due to excessive re-renders
+- Memory consumption scaling linearly with dataset size
+- Layout thrashing during scroll events
+- Janky scroll performance due to excessive re-renders
 
 Think about massive million logs.
 
