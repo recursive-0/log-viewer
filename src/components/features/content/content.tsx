@@ -15,6 +15,7 @@ import { LogEntry, SeverityLevel } from '@/types/common-types';
 import { formatTimestamp } from '@/utils/format-date-time';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import * as styles from './content.module.scss';
+import { useVirtualList } from '@/hooks/use-virtual-list';
 
 interface Column {
   key: keyof LogEntry;
@@ -32,6 +33,9 @@ const getSeverityColor = (severity: SeverityLevel) => {
   return colors[severity];
 };
 
+const CONTAINER_HEIGHT = 500;
+const ROW_HEIGHT = 80;
+
 const formatBody = (body: string) => {
   try {
     const parsed = JSON.parse(body);
@@ -47,6 +51,7 @@ export const Content = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [displayedLogs, setDisplayedLogs] = useState<LogEntry[]>([]);
   const [loadedCount, setLoadedCount] = useState(100);
+  const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
   const [columns, setColumns] = useState<Column[]>([
     { key: 'timestamp', label: 'Timestamp', visible: true },
@@ -82,7 +87,15 @@ export const Content = () => {
     );
   }, []);
 
+  const { start, end, getItemStyle } = useVirtualList({
+    rowHeight: ROW_HEIGHT,
+    totalItems: displayedLogs.length,
+    ref: scrollContainerRef.current,
+    containerHeight: CONTAINER_HEIGHT,
+  });
+
   const visibleColumns = columns.filter((col) => col.visible);
+  const visibleLogs = displayedLogs.slice(start, end + 1);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -109,7 +122,10 @@ export const Content = () => {
         </div>
       </div>
 
-      <div className={styles.tableContainer}>
+      <div
+        className={styles.tableContainer}
+        style={{ height: CONTAINER_HEIGHT }}
+      >
         <Table>
           <TableHeader>
             <TableRow>
@@ -120,35 +136,44 @@ export const Content = () => {
               ))}
             </TableRow>
           </TableHeader>
-          <TableBody>
-            {displayedLogs.map((log, index) => (
-              <TableRow key={index}>
-                {visibleColumns.map((column) => (
-                  <TableCell key={column.key} data-column={column.key}>
-                    {column.key === 'timestamp' && (
-                      <span className={styles.timestamp}>
-                        {formatTimestamp(log[column.key])}
-                      </span>
-                    )}
-                    {column.key === 'severity' && (
-                      <span
-                        className={styles.severityBadge}
-                        style={{
-                          backgroundColor: getSeverityColor(log.severity),
-                        }}
-                      >
-                        {log[column.key]}
-                      </span>
-                    )}
-                    {column.key === 'body' && (
-                      <pre className={styles.bodyContent}>
-                        {formatBody(log[column.key])}
-                      </pre>
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
+          <TableBody
+            ref={scrollContainerRef}
+            style={{
+              height: CONTAINER_HEIGHT,
+              overflow: 'auto',
+              position: 'relative',
+            }}
+          >
+            <div style={{ height: displayedLogs.length * ROW_HEIGHT }}>
+              {visibleLogs.map((log, index) => (
+                <TableRow key={index} style={getItemStyle(start + index)}>
+                  {visibleColumns.map((column) => (
+                    <TableCell key={column.key} data-column={column.key}>
+                      {column.key === 'timestamp' && (
+                        <span className={styles.timestamp}>
+                          {formatTimestamp(log[column.key])}
+                        </span>
+                      )}
+                      {column.key === 'severity' && (
+                        <span
+                          className={styles.severityBadge}
+                          style={{
+                            backgroundColor: getSeverityColor(log.severity),
+                          }}
+                        >
+                          {log[column.key]}
+                        </span>
+                      )}
+                      {column.key === 'body' && (
+                        <pre className={styles.bodyContent}>
+                          {formatBody(log[column.key])}
+                        </pre>
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+            </div>
           </TableBody>
         </Table>
       </div>
